@@ -14,6 +14,8 @@ Install with Go (1.17+):
 go install github.com/liamg/comet@latest
 ```
 
+Or grab a binary from [the latest release](https://github.com/liamg/comet/releases/latest).
+
 ## Customisation
 
 You can customise the options available by creating a `.comet.json` in the root of your repository, or in your home directory. The repository-level config will be preferred if it exists.
