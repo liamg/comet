@@ -11,7 +11,7 @@ You can call `comet` where you're normally type `git commit`. All flags supporte
 Install with Go (1.17+):
 
 ```console
-go install github.com/liamg/comet
+go install github.com/liamg/comet@latest
 ```
 
 ## Customisation
