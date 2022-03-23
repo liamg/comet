@@ -29,12 +29,15 @@ func findGitDir(start string, count int) (string, error) {
 	return findGitDir(above, count+1)
 }
 
-func commit(msg string, body bool) error {
+func commit(msg string, body bool, signOff bool) error {
 	args := append([]string{
 		"commit", "-m", msg,
 	}, os.Args[1:]...)
 	if body {
 		args = append(args, "-e")
+	}
+	if signOff {
+		args = append(args, "-s")
 	}
 	cmd := exec.Command("git", args...)
 	cmd.Stdin = os.Stdin

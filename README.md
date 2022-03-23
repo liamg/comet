@@ -21,9 +21,12 @@ You can customise the options available by creating a `.comet.json` in the root 
 The content should be in the following format:
 
 ```json
-[
-  { "title":  "feat", "description":  "a new feature"},
-  { "title":  "fix", "description":  "a bug fix"},
-  { "title":  "bug", "description":  "introducing a bug"}
-]
+{
+  "signOffCommits": false,
+  "prefixes": [
+    { "title":  "feat", "description":  "a new feature"},
+    { "title":  "fix", "description":  "a bug fix"},
+    { "title":  "bug", "description":  "introducing a bug"}
+  ]
+}
 ```

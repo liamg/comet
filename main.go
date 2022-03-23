@@ -26,7 +26,7 @@ func main() {
 		fail("Error: could not change directory: %s", err)
 	}
 
-	prefixes, err := loadPrefixes()
+	prefixes, signOff, err := loadConfig()
 	if err != nil {
 		fail("Error: %s", err)
 	}
@@ -43,7 +43,7 @@ func main() {
 	}
 
 	msg, withBody := m.CommitMessage()
-	if err := commit(msg, withBody); err != nil {
+	if err := commit(msg, withBody, signOff); err != nil {
 		fail("Error creating commit: %s", err)
 	}
 }

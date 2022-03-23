@@ -14,6 +14,11 @@ type prefix struct {
 	D string `json:"description"`
 }
 
+type config struct {
+	Prefixes       []prefix `json:"prefixes"`
+	SignOffCommits bool     `json:"signOffCommits"`
+}
+
 func (i prefix) Title() string       { return i.T }
 func (i prefix) Description() string { return i.D }
 func (i prefix) FilterValue() string { return i.T }
@@ -67,7 +72,7 @@ var defaultPrefixes = []list.Item{
 
 const configFile = ".comet.json"
 
-func loadPrefixes() ([]list.Item, error) {
+func loadConfig() ([]list.Item, bool, error) {
 
 	if _, err := os.Stat(configFile); err == nil {
 		return loadConfigFile(configFile)
@@ -84,19 +89,19 @@ func loadPrefixes() ([]list.Item, error) {
 		return loadConfigFile(configFile)
 	}
 
-	return defaultPrefixes, nil
+	return defaultPrefixes, false, nil
 }
 
-func loadConfigFile(path string) ([]list.Item, error) {
+func loadConfigFile(path string) ([]list.Item, bool, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
-		return nil, fmt.Errorf("failed to read config file: %w", err)
+		return nil, false, fmt.Errorf("failed to read config file: %w", err)
 	}
-	var prefixes []prefix
-	if err := json.Unmarshal(data, &prefixes); err != nil {
-		return nil, fmt.Errorf("invalid json in config file '%s': %w", path, err)
+	var c config
+	if err := json.Unmarshal(data, &c); err != nil {
+		return nil, false, fmt.Errorf("invalid json in config file '%s': %w", path, err)
 	}
-	return convertPrefixes(prefixes), nil
+	return convertPrefixes(c.Prefixes), c.SignOffCommits, nil
 }
 
 func convertPrefixes(prefixes []prefix) []list.Item {
