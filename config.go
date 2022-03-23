@@ -109,5 +109,8 @@ func convertPrefixes(prefixes []prefix) []list.Item {
 	for _, prefix := range prefixes {
 		output = append(output, prefix)
 	}
+	if len(output) == 0 {
+		return defaultPrefixes
+	}
 	return output
 }
