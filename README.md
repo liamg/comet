@@ -2,7 +2,7 @@
 
 Comet is a simple CLI tool that helps you to use [conventional commits](https://www.conventionalcommits.org/) with git.
 
-You can call `comet` where you're normally type `git commit`. All flags supported in `git commit` will still work.
+You can call `comet` where you'd normally type `git commit`. All flags supported in `git commit` will still work.
 
 ![Demo](demo.png)
 
