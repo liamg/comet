@@ -46,18 +46,21 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 	}
 	output += itemDescriptionStyle.PaddingLeft(12 - len(str)).Render(i.Description())
 
-	_, _ = fmt.Fprintf(w, output)
+	_, _ = fmt.Fprint(w, output)
 }
 
 type model struct {
 	chosenPrefix bool
+	chosenScope  bool
 	chosenMsg    bool
 	chosenBody   bool
 	specifyBody  bool
 	prefix       string
+	scope        string
 	msg          string
 	prefixList   list.Model
 	msgInput     textinput.Model
+	scopeInput   textinput.Model
 	ynInput      textinput.Model
 	items        []prefix
 	quitting     bool
@@ -67,30 +70,37 @@ type model struct {
 func newModel(prefixes []list.Item) *model {
 
 	// set up list
-	l := list.New(prefixes, itemDelegate{}, defaultWidth, listHeight)
-	l.Title = "What are you committing?"
-	l.SetShowStatusBar(false)
-	l.SetFilteringEnabled(true)
-	l.Styles.Title = titleStyle
-	l.Styles.PaginationStyle = paginationStyle
-	l.Styles.HelpStyle = helpStyle
+	prefixList := list.New(prefixes, itemDelegate{}, defaultWidth, listHeight)
+	prefixList.Title = "What are you committing?"
+	prefixList.SetShowStatusBar(false)
+	prefixList.SetFilteringEnabled(true)
+	prefixList.Styles.Title = titleStyle
+	prefixList.Styles.PaginationStyle = paginationStyle
+	prefixList.Styles.HelpStyle = helpStyle
+
+	// set up scope prompt
+	scopeInput := textinput.New()
+	scopeInput.Placeholder = "Scope"
+	scopeInput.CharLimit = 16
+	scopeInput.Width = 20
 
 	// set up commit message prompt
-	ti := textinput.New()
-	ti.Placeholder = "Commit message"
-	ti.CharLimit = 100
-	ti.Width = 50
+	commitInput := textinput.New()
+	commitInput.Placeholder = "Commit message"
+	commitInput.CharLimit = 100
+	commitInput.Width = 50
 
 	// set up add body confirmation
-	yn := textinput.New()
-	yn.Placeholder = "y/N"
-	yn.CharLimit = 1
-	yn.Width = 20
+	bodyConfirmation := textinput.New()
+	bodyConfirmation.Placeholder = "y/N"
+	bodyConfirmation.CharLimit = 1
+	bodyConfirmation.Width = 20
 
 	return &model{
-		prefixList: l,
-		msgInput:   ti,
-		ynInput:    yn,
+		prefixList: prefixList,
+		scopeInput: scopeInput,
+		msgInput:   commitInput,
+		ynInput:    bodyConfirmation,
 	}
 }
 
@@ -102,6 +112,8 @@ func (m *model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch {
 	case !m.chosenPrefix:
 		return m.updatePrefixList(msg)
+	case !m.chosenScope:
+		return m.updateScopeInput(msg)
 	case !m.chosenMsg:
 		return m.updateMsgInput(msg)
 	case !m.chosenBody:
@@ -116,7 +128,11 @@ func (m *model) Finished() bool {
 }
 
 func (m *model) CommitMessage() (string, bool) {
-	return fmt.Sprintf("%s: %s", m.prefix, m.msg), m.specifyBody
+	prefix := m.prefix
+	if m.scope != "" {
+		prefix = fmt.Sprintf("%s(%s)", prefix, m.scope)
+	}
+	return fmt.Sprintf("%s: %s", prefix, m.msg), m.specifyBody
 }
 
 func (m *model) updatePrefixList(msg tea.Msg) (tea.Model, tea.Cmd) {
@@ -136,13 +152,32 @@ func (m *model) updatePrefixList(msg tea.Msg) (tea.Model, tea.Cmd) {
 			if ok {
 				m.prefix = i.Title()
 				m.chosenPrefix = true
-				m.msgInput.Focus()
+				m.scopeInput.Focus()
 			}
 		}
 	}
 
 	var cmd tea.Cmd
 	m.prefixList, cmd = m.prefixList.Update(msg)
+	return m, cmd
+}
+
+func (m *model) updateScopeInput(msg tea.Msg) (tea.Model, tea.Cmd) {
+
+	switch msg := msg.(type) {
+	case tea.KeyMsg:
+		switch msg.Type {
+		case tea.KeyEnter:
+			m.chosenScope = true
+			m.scope = m.scopeInput.Value()
+			m.msgInput.Focus()
+		case tea.KeyCtrlC, tea.KeyEsc:
+			return m, tea.Quit
+		}
+	}
+
+	var cmd tea.Cmd
+	m.scopeInput, cmd = m.scopeInput.Update(msg)
 	return m, cmd
 }
 
@@ -192,6 +227,12 @@ func (m *model) View() string {
 	switch {
 	case !m.chosenPrefix:
 		return "\n" + m.prefixList.View()
+	case !m.chosenScope:
+		return titleStyle.Render(fmt.Sprintf(
+			"\nEnter a scope (enter to skip):\n\n%s\n\n%s",
+			m.scopeInput.View(),
+			"(esc to cancel)",
+		) + "\n")
 	case !m.chosenMsg:
 		return titleStyle.Render(fmt.Sprintf(
 			"\nEnter a commit message:\n\n%s\n\n%s",
