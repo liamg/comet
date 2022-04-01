@@ -12,17 +12,12 @@ func main() {
 		fail("Error: %s", err)
 	}
 
-	cwd, err := os.Getwd()
-	if err != nil {
-		cwd = "."
-	}
-
-	dir, err := findGitDir(cwd, 0)
+	gitRoot, err := findGitDir()
 	if err != nil {
 		fail("Error: %s", err)
 	}
 
-	if err := os.Chdir(dir); err != nil {
+	if err := os.Chdir(gitRoot); err != nil {
 		fail("Error: could not change directory: %s", err)
 	}
 
