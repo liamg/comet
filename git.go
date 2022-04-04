@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 	"os/exec"
-	"path/filepath"
 )
 
 const maxGitRecursion = 32
@@ -16,17 +16,16 @@ func checkGitInPath() error {
 	return nil
 }
 
-func findGitDir(start string, count int) (string, error) {
-	if info, err := os.Stat(filepath.Join(start, ".git")); err == nil {
-		if info.IsDir() {
-			return start, nil
-		}
+func findGitDir() (string, error) {
+	cmd := exec.Command("git", "rev-parse", "--show-toplevel")
+	output, err := cmd.CombinedOutput()
+	
+	if err != nil {
+		return "", fmt.Errorf(string(output))
 	}
-	above := filepath.Dir(start)
-	if above == start || count >= maxGitRecursion {
-		return "", fmt.Errorf("not a git repository: .git directory not found")
-	}
-	return findGitDir(above, count+1)
+
+
+	return strings.TrimSpace(string(output)), nil
 }
 
 func commit(msg string, body bool, signOff bool) error {
