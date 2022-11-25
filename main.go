@@ -2,12 +2,17 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
 )
 
 func main() {
+	if err := stdin(); err != nil {
+		fail("Error: %s", err)
+	}
+
 	if err := checkGitInPath(); err != nil {
 		fail("Error: %s", err)
 	}
@@ -41,6 +46,30 @@ func main() {
 	if err := commit(msg, withBody, signOff); err != nil {
 		fail("Error creating commit: %s", err)
 	}
+}
+
+func stdin() error {
+	fi, err := os.Stdin.Stat()
+	if err != nil {
+		return fmt.Errorf("cannot check STDIN: %w", err)
+	}
+
+	if fi.Mode()&os.ModeNamedPipe != 0 {
+		out, err := io.ReadAll(os.Stdin)
+		if err != nil {
+			return fmt.Errorf("cannot read from STDIN: %w", err)
+		}
+
+		if string(out) != "" {
+			if !verifyCommitMessage(string(out)) {
+				return fmt.Errorf("invalid commit message")
+			}
+
+			os.Exit(0)
+		}
+	}
+
+	return nil
 }
 
 func fail(format string, args ...interface{}) {
