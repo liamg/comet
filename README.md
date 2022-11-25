@@ -8,7 +8,7 @@ You can call `comet` where you'd normally type `git commit`. All flags supported
 
 ## Installation
 
-Install with Go (1.17+):
+Install with Go (1.18+):
 
 ```console
 go install github.com/liamg/comet@latest
@@ -31,4 +31,17 @@ The content should be in the following format:
     { "title":  "bug", "description":  "introducing a bug"}
   ]
 }
+```
+
+## Verify commit messages
+`comet` can be used to verify commit messages via STDIN:
+```bash
+# valid commit
+echo "feat: support JSON" | comet; echo $?
+0
+
+# invalid
+echo "invalid commit message" | comet; echo $?
+Error: invalid commit message
+1
 ```
