@@ -13,17 +13,18 @@ import (
 type prefix struct {
 	T string `json:"title"`
 	D string `json:"description"`
-	E string   `json:"emoji"`
+	E string `json:"emoji"`
 }
 
 type config struct {
 	Prefixes       []prefix `json:"prefixes"`
 	SignOffCommits bool     `json:"signOffCommits"`
-	Emoji 	bool     `json:"emoji"`
+	Emoji          bool     `json:"emoji"`
 }
 
 func (i prefix) Title() string       { return i.T }
 func (i prefix) Description() string { return i.D }
+func (i prefix) Emoji() string       { return i.E }
 func (i prefix) FilterValue() string { return i.T }
 
 var defaultPrefixes = []list.Item{
@@ -81,7 +82,6 @@ var defaultPrefixes = []list.Item{
 		T: "chore",
 		D: "Performed superhero janitorial duties",
 		E: emoji.Parse(":broom:"),
-		
 	},
 	prefix{
 		T: "add",

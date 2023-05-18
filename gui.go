@@ -75,7 +75,7 @@ func newModel(prefixes []list.Item) *model {
 	prefixList.SetShowStatusBar(false)
 	prefixList.SetFilteringEnabled(true)
 	prefixList.Styles.Title = titleStyle
-	prefixList.Styles.PaginationStyle = paginationStyle
+	// prefixList.Styles.PaginationStyle = paginationStyle
 	prefixList.Styles.HelpStyle = helpStyle
 
 	// set up scope prompt
@@ -150,6 +150,12 @@ func (m *model) updatePrefixList(msg tea.Msg) (tea.Model, tea.Cmd) {
 		case "enter":
 			i, ok := m.prefixList.SelectedItem().(prefix)
 			if ok {
+				// TODO: check if emoji config is set to true
+				// if true {
+				// 	m.prefix = i.Emoji() +" "+  i.Title()
+				// } else {
+				// 	m.prefix = i.Title()
+				// }
 				m.prefix = i.Title()
 				m.chosenPrefix = true
 				m.scopeInput.Focus()

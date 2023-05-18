@@ -12,6 +12,8 @@ github.com/charmbracelet/lipgloss v0.5.0/go.mod h1:EZLha/HbzEt7cYqdFPovlqy5FZPj0
 github.com/containerd/console v1.0.2/go.mod h1:ytZPjGgY2oeTkAONYafi2kSj0aYggsf8acV1PGKCbzQ=
 github.com/containerd/console v1.0.3 h1:lIr7SlA5PxZyMV30bDW0MGbiOPXwc63yRuCP0ARubLw=
 github.com/containerd/console v1.0.3/go.mod h1:7LqA/THxQ86k76b8c/EMSiaJ3h1eZkMkXar0TQ1gf3U=
+github.com/enescakir/emoji v1.0.0 h1:W+HsNql8swfCQFtioDGDHCHri8nudlK1n5p2rHCJoog=
+github.com/enescakir/emoji v1.0.0/go.mod h1:Bt1EKuLnKDTYpLALApstIkAjdDrS/8IAgTkKp+WKFD0=
 github.com/kylelemons/godebug v1.1.0 h1:RPNrshWIDI6G2gRW9EHilWtl7Z6Sb1BR0xunSBf0SNc=
 github.com/kylelemons/godebug v1.1.0/go.mod h1:9/0rRGxNHcop5bhtWyNeEfOS8JIWk580+fNqagV/RAw=
 github.com/lucasb-eyer/go-colorful v1.2.0 h1:1nnpGOrhyZZuNyfu1QjKiUICQ74+3FNCN69Aj6K7nkY=
