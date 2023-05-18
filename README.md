@@ -11,24 +11,29 @@ You can call `comet` where you'd normally type `git commit`. All flags supported
 Install with Go (1.17+):
 
 ```console
-go install github.com/liamg/comet@latest
+go install github.com/JammUtkarsh/comet@latest
 ```
 
-Or grab a binary from [the latest release](https://github.com/liamg/comet/releases/latest).
+Or grab a binary from [the latest release](https://github.com/JammUtkarsh/comet/releases/latest).
 
-## Customisation
+## Custom Format
 
-You can customise the options available by creating a `.comet.json` in the root of your repository, or in your home directory. The repository-level config will be preferred if it exists.
+You can customise the options available by creating a `.comet.json` file.
+
+Each repository can have its own `.comet.json` file, or you can create one in your home directory to apply to all repositories.
 
 The content should be in the following format:
 
 ```json
 {
   "signOffCommits": false,
+  "Emoji": false,
   "prefixes": [
-    { "title":  "feat", "description":  "a new feature"},
-    { "title":  "fix", "description":  "a bug fix"},
-    { "title":  "bug", "description":  "introducing a bug"}
+    { "title":  "feat", "description":  "a new feature", "emoji": "🚀"},
+    { "title":  "fix", "description":  "a bug fix", "emojo": "🐛"},
+    { "title":  "bug", "description":  "introducing a bug", "emoji": "🐛"},
   ]
 }
 ```
+
+NOTE: Emoji feature is not yet added to the project.
