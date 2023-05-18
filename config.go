@@ -26,47 +26,56 @@ func (i prefix) FilterValue() string { return i.T }
 var defaultPrefixes = []list.Item{
 	prefix{
 		T: "feat",
-		D: "Introduces a new feature",
+		D: "Unleashed a magical unicorn",
 	},
 	prefix{
 		T: "fix",
-		D: "Patches a bug",
+		D: "Vanquished a sneaky bug",
 	},
 	prefix{
 		T: "docs",
-		D: "Documentation changes only",
+		D: "Penned down a riveting tale about our code",
 	},
 	prefix{
 		T: "test",
-		D: "Adding missing tests or correcting existing tests",
+		D: "An army of knights to battle-test our code is here",
 	},
 	prefix{
 		T: "build",
-		D: "Changes that affect the build system",
+		D: "Constructed a towering fortress of code",
 	},
 	prefix{
 		T: "ci",
-		D: "Changes to CI configuration files and scripts",
+		D: "Enlisted a team of robot to automate our code",
 	},
 	prefix{
 		T: "perf",
-		D: "A code change that improves performance",
+		D: "Taught our code some secret ninja moves",
 	},
 	prefix{
 		T: "refactor",
-		D: "A code change that neither fixes a bug nor adds a feature",
+		D: "Gave our code a dazzling makeover",
 	},
 	prefix{
 		T: "revert",
-		D: "Reverts a previous change",
+		D: "Turned back time on our code's misadventures",
 	},
 	prefix{
 		T: "style",
-		D: "Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)",
+		D: "Dressed our code in the trendiest fashion",
 	},
 	prefix{
 		T: "chore",
-		D: "A minor change which does not fit into any other category",
+		D: "Performed superhero janitorial duties",
+		
+	},
+	prefix{
+		T: "add",
+		D: "Unleashed file-fairies for a codebase expansion!",
+	},
+	prefix{
+		T: "init",
+		D: "Batman! (this commit has no parents)",
 	},
 }
 
