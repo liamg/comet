@@ -7,16 +7,19 @@ import (
 	"path/filepath"
 
 	"github.com/charmbracelet/bubbles/list"
+	"github.com/enescakir/emoji"
 )
 
 type prefix struct {
 	T string `json:"title"`
 	D string `json:"description"`
+	E string   `json:"emoji"`
 }
 
 type config struct {
 	Prefixes       []prefix `json:"prefixes"`
 	SignOffCommits bool     `json:"signOffCommits"`
+	Emoji 	bool     `json:"emoji"`
 }
 
 func (i prefix) Title() string       { return i.T }
@@ -27,55 +30,68 @@ var defaultPrefixes = []list.Item{
 	prefix{
 		T: "feat",
 		D: "Unleashed a magical unicorn",
+		E: emoji.Parse(":sparkles:"),
 	},
 	prefix{
 		T: "fix",
 		D: "Vanquished a sneaky bug",
+		E: emoji.Parse(":bug:"),
 	},
 	prefix{
 		T: "docs",
 		D: "Penned down a riveting tale about our code",
+		E: emoji.Parse(":memo:"),
 	},
 	prefix{
 		T: "test",
 		D: "An army of knights to battle-test our code is here",
+		E: emoji.Parse(":white_check_mark:"),
 	},
 	prefix{
 		T: "build",
 		D: "Constructed a towering fortress of code",
+		E: emoji.Parse(":hammer:"),
 	},
 	prefix{
 		T: "ci",
 		D: "Enlisted a team of robot to automate our code",
+		E: emoji.Parse(":robot:"),
 	},
 	prefix{
 		T: "perf",
 		D: "Taught our code some secret ninja moves",
+		E: emoji.Parse(":zap:"),
 	},
 	prefix{
 		T: "refactor",
 		D: "Gave our code a dazzling makeover",
+		E: emoji.Parse(":recycle:"),
 	},
 	prefix{
 		T: "revert",
 		D: "Turned back time on our code's misadventures",
+		E: emoji.Parse(":rewind:"),
 	},
 	prefix{
 		T: "style",
 		D: "Dressed our code in the trendiest fashion",
+		E: emoji.Parse(":lipstick:"),
 	},
 	prefix{
 		T: "chore",
 		D: "Performed superhero janitorial duties",
+		E: emoji.Parse(":broom:"),
 		
 	},
 	prefix{
 		T: "add",
 		D: "Unleashed file-fairies for a codebase expansion!",
+		E: emoji.Parse(":heavy_plus_sign:"),
 	},
 	prefix{
 		T: "init",
 		D: "Batman! (this commit has no parents)",
+		E: emoji.Parse(":tada:"),
 	},
 }
 
