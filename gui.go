@@ -13,7 +13,7 @@ import (
 )
 
 const defaultWidth = 20
-const listHeight = 14
+const listHeight = 20
 
 var (
 	titleStyle           = lipgloss.NewStyle().MarginLeft(2)
@@ -232,7 +232,7 @@ func (m *model) updateYNInput(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (m *model) View() string {
 	switch {
 	case !m.chosenPrefix:
-		return "\n" + m.prefixList.View()
+		return "\n" + m.prefixList.View() + "\nRemember to use concise and meaningful commit messages in your actual codebase. These are just for fun!\n"
 	case !m.chosenScope:
 		return titleStyle.Render(fmt.Sprintf(
 			"\nEnter a scope (enter to skip):\n\n%s\n\n%s",
