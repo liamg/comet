@@ -187,6 +187,9 @@ func (m *model) updateMsgInput(msg tea.Msg) (tea.Model, tea.Cmd) {
 	case tea.KeyMsg:
 		switch msg.Type {
 		case tea.KeyEnter:
+			if m.msgInput.Value() == "" {
+				return m, nil
+			}
 			m.chosenMsg = true
 			m.msg = m.msgInput.Value()
 			m.ynInput.Focus()
